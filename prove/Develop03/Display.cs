@@ -67,13 +67,57 @@ public class Display
     }
 
     /// <summary>
+    /// Prompts the user to select a scripture from the list or quit.
+    /// </summary>
+    private Scripture SelectScripture()
+    {
+        while (true)
+        {
+            Console.Clear();
+            Console.WriteLine("=== Scripture Selection Menu ===");
+            Console.WriteLine();
+
+            for (int i = 0; i < _scriptures.Count; i++)
+            {
+                Scripture s = _scriptures[i];
+                Console.WriteLine((i + 1) + ". " + s.GetReference().GetDisplayText());
+            }
+
+            Console.WriteLine();
+            Console.Write("Select a scripture number (or type 'quit' to exit): ");
+            string choice = Console.ReadLine();
+
+            if (choice == null || choice.ToLower() == "quit")
+            {
+                return null;
+            }
+
+            int index;
+            if (int.TryParse(choice, out index))
+            {
+                if (index >= 1 && index <= _scriptures.Count)
+                {
+                    return _scriptures[index - 1];
+                }
+            }
+
+            Console.WriteLine("Invalid selection. Press Enter to try again...");
+            Console.ReadLine();
+        }
+    }
+
+    /// <summary>
     /// Prints the user interface, menu choices, scripture text states, and prompts to the console.
     /// </summary>
     public void DisplayMenu()
     {
-        Random random = new Random();
-        int index = random.Next(_scriptures.Count);
-        Scripture selectedScripture = _scriptures[index];
+        Scripture selectedScripture = SelectScripture();
+
+        if (selectedScripture == null)
+        {
+            return;
+        }
+
         VerseDisplay verseDisplay = new VerseDisplay(selectedScripture);
 
         string input = "";
@@ -90,16 +134,8 @@ public class Display
                 break;
             }
 
-            int wordsToHide = 3;
-            if (verseDisplay.GetUnhiddenWords() < wordsToHide)
-            {
-                wordsToHide = verseDisplay.GetUnhiddenWords();
-            }
-
-            for (int i = 0; i < wordsToHide; i++)
-            {
-                verseDisplay.HideRandomWord();
-            }
+            // Hides 1 word at a time
+            verseDisplay.HideRandomWord();
 
             if (verseDisplay.GetUnhiddenWords() == 0)
             {
