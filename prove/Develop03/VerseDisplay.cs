@@ -10,30 +10,63 @@ public class VerseDisplay
     private int _unhiddenWords;
 
     /// <summary>
-    /// takes a scripture instance and prepares its words to be tracked and hidden during
+    /// Takes a scripture instance and prepares its words to be tracked and hidden during
     /// memorization exercise.
     /// </summary>
     public VerseDisplay(Scripture memorizedScripture)
     {
-        // TODO: Populate _words using memorizedScripture.GetWordList()
+        _words = memorizedScripture.GetWordList();
+        _unhiddenWords = _words.Count;
     }
 
     /// <summary>
-    /// Randomly selects active word that is still visible and marks it hidden.
+    /// Randomly selects active word that is still visible and marks it hidden (Stretch Challenge: selects only from unhidden words).
     /// </summary>
     public void HideRandomWord()
     {
-        // TODO: Add random selection logic to hide visible words
+        List<Word> availableWords = new List<Word>();
+        foreach (Word word in _words)
+        {
+            if (!word.IsHidden())
+            {
+                availableWords.Add(word);
+            }
+        }
+
+        if (availableWords.Count > 0)
+        {
+            Random random = new Random();
+            int index = random.Next(availableWords.Count);
+            Word selectedWord = availableWords[index];
+            selectedWord.HideWord();
+            _unhiddenWords = _unhiddenWords - 1;
+        }
     }
 
     /// <summary>
     /// Generate and returns the formatted text string for the console, 
-    /// show visible words and replacing hidden words with underscores.
+    /// showing visible words and replacing hidden words with underscores.
     /// </summary>
     public string GetDisplayString()
     {
-        // TODO: Loop over _words and build display string with underscores for hidden words
-        return string.Empty;
+        string displayStr = "";
+        foreach (Word word in _words)
+        {
+            if (word.IsHidden())
+            {
+                string underscores = "";
+                for (int i = 0; i < word.GetWord().Length; i++)
+                {
+                    underscores += "_";
+                }
+                displayStr += underscores + " ";
+            }
+            else
+            {
+                displayStr += word.GetWord() + " ";
+            }
+        }
+        return displayStr.Trim();
     }
 
     /// <summary>
@@ -41,7 +74,6 @@ public class VerseDisplay
     /// </summary>
     public string GetWord()
     {
-        // TODO: Fetch single word representation
         return string.Empty;
     }
 

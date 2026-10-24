@@ -40,4 +40,12 @@ public class Word
     {
         _hidden = true;
     }
+
+    /// <summary>
+    /// Returns whether the word is currently hidden.
+    /// </summary>
+    public bool IsHidden()
+    {
+        return _hidden;
+    }
 }

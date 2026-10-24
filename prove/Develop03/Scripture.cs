@@ -55,7 +55,15 @@ public class Scripture
     /// </summary>
     public List<Word> GetWordList()
     {
-        // TODO: Split _verse string into Word objects
-        return new List<Word>();
+        List<Word> words = new List<Word>();
+        string[] splitWords = _verse.Split(' ');
+        foreach (string text in splitWords)
+        {
+            if (text.Length > 0)
+            {
+                words.Add(new Word(text));
+            }
+        }
+        return words;
     }
 }
