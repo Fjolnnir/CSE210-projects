@@ -15,6 +15,7 @@ class ListingActivity : Activity
         _listingPrompts.Add("Who are people that you have helped this week?");
         _listingPrompts.Add("When have you felt the Holy Ghost this month?");
         _listingPrompts.Add("Who are some of your personal heroes?");
+        _listingPrompts.Add("How has God blessed you this week?");
 
         _entries = new List<string>();
         _usedPrompts = new List<string>();
