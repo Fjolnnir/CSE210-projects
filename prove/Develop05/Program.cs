@@ -1,9 +1,10 @@
-using System;
-
 class Program
 {
     static void Main(string[] args)
     {
-        Console.WriteLine("Hello Develop05 World!");
+        // Exceeding Requirements Explanation:
+        // added milestones that add title badges for major milestones of scores
+        Menu menu = new Menu();
+        menu.HandleUserInput();
     }
 }
